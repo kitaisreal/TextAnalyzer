@@ -7,7 +7,7 @@
 #target
 *target
 target/
-src/main/resourses/static/node_modules*
+src/main/resources/static/node_modules*
 
 # Log file
 *.log

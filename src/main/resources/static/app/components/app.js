@@ -5,14 +5,18 @@ import { Navbar, NavItem, Nav, Grid, Row, Col ,FormControl,FormGroup ,Tooltip, P
 class App extends React.Component {
     constructor(props) {
         super(props);
+        //bind send File function
         this.sendFile = this.sendFile.bind(this);
+        //create our state
         this.state = {responseValue:null,activeData:null};
     }
     sendFile(e){
+        //get File
         const input = ReactDom.findDOMNode(this.refs["file"]);
         e.preventDefault();
         const data = new FormData();
         data.append('file',input.files[0]);
+        //post file -> change state
         fetch('/testUpload',{method:'POST',body:data})
             .then(response=>response.json())
             .then(json=> {
@@ -24,9 +28,11 @@ class App extends React.Component {
             })
     }
     render() {
+        //Conditional rendering
         let content=null;
         if (this.state.activeData=="topTenWords" && this.state.responseValue.topMatchedWords!=undefined) {
             console.log(this.state.responseValue.topMatchedWords);
+            //create Table of words
             content =
                 <table className="table">
                     <thead>
@@ -47,7 +53,7 @@ class App extends React.Component {
                     </tbody>
                 </table>;
         }else if (this.state.activeData=="bracketsCheck" && this.state.responseValue.bracket!=undefined){
-            console.log(this.state.responseValue.bracket);
+            //create brackets analyze result
             content = (<div>
                 <h4>Brackets in text: {this.state.responseValue.bracket.test}</h4>
                 <h4>Result of bracket test: {this.state.responseValue.bracket.result}</h4>
@@ -83,7 +89,7 @@ class App extends React.Component {
                             bsStyle="pills"
                             stacked
                             onSelect={eventKey => {
-                                console.log(this.state.activeData);
+                                //onClick change state
                                 this.setState({ activeData: eventKey});
                         }}>
                             <NavItem eventKey={"topTenWords"}>Words Analyze</NavItem>
