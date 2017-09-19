@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+<script>
+    $(document).ready(function () {
+
+        $("#fileSubmit").click(function (event) {
+
+            event.preventDefault();
+            fire_ajax_submit();
+        });
+    });
+
+    function fire_ajax_submit() {
+        var form = $('#fileUploadForm')[0];
+        var data = new FormData(form);
+
+        $.ajax({
+            type: "POST",
+            enctype: 'multipart/form-data',
+            url: "/testUpload",
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                console.log("SUCCESS : ", data);
+
+            },
+            error: function (e) {
+                console.log("ERROR : ", e);
+
+            }
+        });
+
+    }
+</script>
+<div>
+    <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+    <input type="file" accept=".txt" name="file" id="fileLoader" />
+    </form>
+    <input type="button" id="fileSubmit" value="Upload"/>
+</div>
+</body>
+</html>
